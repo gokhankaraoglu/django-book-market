@@ -8,11 +8,13 @@ from rest_framework.exceptions import ValidationError
 from books.api.serializers import BookSerializer, CommentSerializer
 from books.models import Book, Comment
 from books.api.permissions import IsAdminUserReadOnly, IsCommentByOrReadOnly
+from books.api.pagination import SmallPagination, LargePagination
 
 class BookListCreateAPIView(generics.ListCreateAPIView):
-  queryset = Book.objects.all()
+  queryset = Book.objects.all().order_by("-id")
   serializer_class = BookSerializer
   permission_classes = [IsAdminUserReadOnly]
+  # pagination_class = LargePagination
 
 
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
